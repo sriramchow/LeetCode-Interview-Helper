@@ -1,6 +1,12 @@
 # LeetCode Interview Helper
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-leetcode--interview--helper-brightgreen?logo=render)](https://leetcode-interview-helper.onrender.com)
+
 An Information Retrieval system that helps you find the most relevant LeetCode problems for your target company and role. Built with a Python/Flask backend using BM25 + TF-IDF retrieval and a React frontend.
+
+🔗 **Live Demo:** [https://leetcode-interview-helper.onrender.com](https://leetcode-interview-helper.onrender.com)
+
+> ⚠️ Hosted on Render's free tier — the first load may take ~50 seconds if the server is sleeping. Subsequent requests are instant.
 
 ---
 
