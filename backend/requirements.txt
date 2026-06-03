@@ -5,3 +5,4 @@ numpy
 scikit-learn
 rank-bm25
 pyarrow
+gunicorn

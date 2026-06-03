@@ -1,15 +1,17 @@
 import os, re, pickle, warnings
 import numpy as np
 import pandas as pd
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 warnings.filterwarnings("ignore")
 
-app = Flask(__name__)
-CORS(app)
+BASE_DIR      = os.path.dirname(os.path.abspath(__file__))
+SAVE_DIR      = os.path.join(BASE_DIR, 'ir_artifacts')
+FRONTEND_DIST = os.path.join(BASE_DIR, '..', 'frontend', 'dist')
 
-SAVE_DIR = os.path.join(os.path.dirname(__file__), 'ir_artifacts')
+app = Flask(__name__, static_folder=FRONTEND_DIST, static_url_path='')
+CORS(app)
 
 # ── Load dataset ─────────────────────────────────────────────────────────────
 print("Loading IR system...")
@@ -133,5 +135,14 @@ def query():
         'results':          records,
     })
 
+# ── Serve React frontend (production) ────────────────────────────────────────
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_react(path):
+    if path and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, 'index.html')
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000, host='0.0.0.0')
+    port = int(os.environ.get('PORT', 5000))
+    app.run(debug=False, port=port, host='0.0.0.0')
